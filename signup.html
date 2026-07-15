@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - 10X CRM</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>Create your account</h1>
+
+        <form id="signupForm">
+          <!-- 1. Full Name -->
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" required />
+            <span class="error-message"></span>
+          </div>
+
+          <!-- 2. Email -->
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required />
+            <span class="error-message"></span>
+          </div>
+
+          <!-- 3. Company (optional) -->
+          <div class="form-group">
+            <label for="company">Company</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              placeholder="Company (optional)"
+            />
+            <span class="error-message"></span>
+          </div>
+
+          <!-- 4. Password -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+            <span class="error-message"></span>
+          </div>
+
+          <!-- 5. Confirm Password -->
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+            <span class="error-message"></span>
+          </div>
+
+          <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+
+        <p class="auth-link">
+          Already have an account? <a href="index.html">Login</a>
+        </p>
+      </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>
