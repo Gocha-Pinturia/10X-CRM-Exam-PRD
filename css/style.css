@@ -6,12 +6,13 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #f3f4f6;
-  color: #1f2937;
+  background-color: #0f172a;
+  color: #f1f5f9;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .auth-container {
@@ -21,15 +22,16 @@ body {
 }
 
 .auth-card {
-  background: white;
-  border-radius: 8px;
+  background: #1e293b;
+  border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 .auth-card h1 {
   font-size: 24px;
   margin-bottom: 24px;
   text-align: center;
+  color: #f1f5f9;
 }
 
 .form-group {
@@ -40,25 +42,32 @@ body {
   margin-bottom: 6px;
   font-weight: 500;
   font-size: 14px;
+  color: #f1f5f9;
 }
 .form-group input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
+  background-color: #0f172a;
+  border: 1px solid #334155;
   border-radius: 6px;
   font-size: 14px;
-  transition: border-color 0.2s;
+  color: #f1f5f9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input::placeholder {
+  color: #94a3b8;
 }
 .form-group input:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 .form-group input.input-error {
-  border-color: #dc2626;
+  border-color: #ef4444;
 }
 .form-group .error-message {
   display: block;
-  color: #dc2626;
+  color: #ef4444;
   font-size: 12px;
   margin-top: 4px;
   min-height: 16px;
@@ -67,7 +76,7 @@ body {
 .btn-primary {
   width: 100%;
   padding: 12px;
-  background-color: #2563eb;
+  background-color: #3b82f6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -78,21 +87,47 @@ body {
   transition: background-color 0.2s;
 }
 .btn-primary:hover {
-  background-color: rgb(18.5714285714, 76.1428571429, 202.4285714286);
+  background-color: rgb(11.1512195122, 99.1219512195, 242.8487804878);
 }
 
 .auth-link {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
+  color: #94a3b8;
 }
 .auth-link a {
-  color: #2563eb;
+  color: #3b82f6;
   text-decoration: none;
   font-weight: 500;
 }
 .auth-link a:hover {
   text-decoration: underline;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.toast-success {
+  background-color: #10b981;
+}
+.toast-error {
+  background-color: #ef4444;
 }
 
 /*# sourceMappingURL=style.css.map */
