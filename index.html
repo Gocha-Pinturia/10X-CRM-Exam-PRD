@@ -1,1 +1,47 @@
-<!-- login წვდომა საჯარო -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In - 10X CRM</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1>Welcome back</h1>
+
+        <form id="loginForm" novalidate>
+          <!-- Email -->
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="text" id="loginEmail" name="email" required />
+            <span class="error-message"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              required
+              autocomplete="current-password"
+            />
+            <span class="error-message"></span>
+          </div>
+
+          <button type="submit" class="btn-primary">Log In</button>
+        </form>
+
+        <p class="auth-link">
+          Don't have an account? <a href="signup.html">Sign up</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Подключаем скрипт для логина как модуль -->
+    <script type="module" src="js/login.js"></script>
+  </body>
+</html>
