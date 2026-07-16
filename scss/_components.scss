@@ -129,3 +129,18 @@
         background-color: $error-color;
     }
 }
+
+body.light-theme .auth-card {
+    background-color: $card-light;
+    color: $text-light;
+}
+
+body.light-theme input {
+    background-color: $input-bg-light;
+    color: $text-light;
+    border-color: $border-light;
+    
+    &::placeholder {
+        color: $text-muted-light;
+    }
+}

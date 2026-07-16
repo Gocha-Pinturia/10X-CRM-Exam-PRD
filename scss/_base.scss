@@ -16,3 +16,9 @@ body {
     justify-content: center;
     transition: background-color 0.3s, color 0.3s;
 }
+
+// Light theme overrides
+body.light-theme {
+    background-color: $bg-light;
+    color: $text-light;
+}

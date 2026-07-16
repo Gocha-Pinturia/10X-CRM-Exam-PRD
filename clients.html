@@ -1,1 +1,121 @@
-<!-- წვდომა დაცული -->
+<!-- წვდომა დაცული --><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients - 10X CRM</title>
+    <!-- Link to main stylesheet (assuming SCSS is compiled to css/style.css) -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="theme-dark"> <!-- Default theme as per PRD P0.3 -->
+
+    <!-- Main Navigation (Populated by js/layout.js) -->
+    <nav id="main-nav" class="sidebar">
+        <!-- Navigation items will be injected here -->
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="content">
+        <!-- Page Header (P4.1) -->
+        <header class="page-header">
+            <h1>Clients</h1>
+            <button id="btn-add-client" class="btn-primary">+ Add Client</button>
+        </header>
+
+        <!-- Toolbar: Search, Filters, Sort (P4.1, P4.7) -->
+        <section class="toolbar">
+            <input 
+                type="text" 
+                id="search-input" 
+                placeholder="Search by name or company..." 
+                class="input-field"
+            >
+            
+            <div class="filter-chips" id="filter-chips">
+                <button class="chip active" data-status="All">All</button>
+                <button class="chip" data-status="Lead">Lead</button>
+                <button class="chip" data-status="Contacted">Contacted</button>
+                <button class="chip" data-status="Won">Won</button>
+                <button class="chip" data-status="Lost">Lost</button>
+            </div>
+
+            <select id="sort-select" class="select-field">
+                <option value="newest">Newest first</option>
+                <option value="name-asc">Name A-Z</option>
+                <option value="deal-desc">Deal value: high-low</option>
+            </select>
+        </section>
+
+        <!-- Clients List Container (P4.2, P4.3) -->
+        <section id="clients-container" class="clients-grid">
+            <!-- Loading state (P4.2) -->
+            <div id="loading-indicator" class="loading-state">
+                Loading clients...
+            </div>
+            
+            <!-- Error state (P4.2 FULL) -->
+            <div id="error-indicator" class="error-state" style="display: none;">
+                Could not load clients. Check your connection and try again.
+                <button id="btn-retry" class="btn-secondary">Retry</button>
+            </div>
+
+            <!-- Actual client cards will be rendered here by js/clients.js -->
+            <div id="clients-list"></div>
+        </section>
+    </main>
+
+    <!-- Add Client Modal (P4.4) - Draft structure -->
+    <dialog id="add-client-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Client</h2>
+                <button id="btn-close-modal" class="btn-icon">&times;</button>
+            </div>
+            <!-- novalidate is required by PRD P0 to handle custom JS validation -->
+            <form id="add-client-form" novalidate>
+                <div class="form-group">
+                    <label for="client-name">Name</label>
+                    <input type="text" id="client-name" name="name" required>
+                    <span class="error-message" id="error-name"></span>
+                </div>
+                <div class="form-group">
+                    <label for="client-email">Email</label>
+                    <input type="email" id="client-email" name="email" required>
+                    <span class="error-message" id="error-email"></span>
+                </div>
+                <div class="form-group">
+                    <label for="client-phone">Phone</label>
+                    <input type="tel" id="client-phone" name="phone">
+                    <span class="error-message" id="error-phone"></span>
+                </div>
+                <div class="form-group">
+                    <label for="client-company">Company</label>
+                    <input type="text" id="client-company" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="client-deal">Deal Value</label>
+                    <input type="number" id="client-deal" name="dealValue" required>
+                    <span class="error-message" id="error-deal"></span>
+                </div>
+                <div class="form-group">
+                    <label for="client-status">Status</label>
+                    <select id="client-status" name="status">
+                        <option value="Lead">Lead</option>
+                        <option value="Contacted">Contacted</option>
+                        <option value="Won">Won</option>
+                        <option value="Lost">Lost</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Save Client</button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Scripts loaded as ES6 modules (P0, 5.6) -->
+    <!-- Guard must run first to protect the page -->
+    <script type="module" src="js/guard.js"></script>
+    <script type="module" src="js/layout.js"></script>
+    <script type="module" src="js/data.js"></script>
+    <script type="module" src="js/clients.js"></script>
+</body>
+</html>

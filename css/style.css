@@ -15,6 +15,11 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+body.light-theme {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
 .auth-container {
   width: 100%;
   max-width: 420px;
@@ -128,6 +133,20 @@ body {
 }
 .toast-error {
   background-color: #ef4444;
+}
+
+body.light-theme .auth-card {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+body.light-theme input {
+  background-color: #ffffff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+body.light-theme input::placeholder {
+  color: #64748b;
 }
 
 /*# sourceMappingURL=style.css.map */
