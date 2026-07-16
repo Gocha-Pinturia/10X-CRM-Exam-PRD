@@ -395,7 +395,7 @@ body.light-theme .recent-client-item {
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: darken($primary-color, 10%);
+    background-color: #2563eb;
   }
 }
 
@@ -413,7 +413,7 @@ body.light-theme .recent-client-item {
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: darken($error-color, 10%);
+    background-color: #dc2626;
   }
 }
 
@@ -697,7 +697,7 @@ body.light-theme .recent-client-item {
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: darken($error-color, 10%);
+      background-color: #dc2626;
     }
   }
 }

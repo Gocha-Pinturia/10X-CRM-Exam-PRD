@@ -414,7 +414,7 @@ body.light-theme .recent-client-item {
   transition: background-color 0.2s;
 }
 .btn-primary:hover {
-  background-color: rgb(11.1512195122, 99.1219512195, 242.8487804878);
+  background-color: #2563eb;
 }
 
 .btn-danger {
@@ -431,7 +431,7 @@ body.light-theme .recent-client-item {
   transition: background-color 0.2s;
 }
 .btn-danger:hover {
-  background-color: rgb(234.9802955665, 21.0197044335, 21.0197044335);
+  background-color: #dc2626;
 }
 
 /* ===================================
@@ -687,7 +687,7 @@ body.light-theme .recent-client-item {
   transition: background-color 0.2s;
 }
 .client-card .btn-delete:hover {
-  background-color: rgb(234.9802955665, 21.0197044335, 21.0197044335);
+  background-color: #dc2626;
 }
 
 /* ===================================

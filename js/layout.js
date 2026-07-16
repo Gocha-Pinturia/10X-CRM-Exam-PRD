@@ -81,6 +81,6 @@ if (logoutBtn) {
         // Redirect to login page
         setTimeout(() => {
             window.location.href = 'index.html';
-        }, 500);
+        }, 1500);
     });
 }
