@@ -1,23 +1,41 @@
-// Layout logic: active navigation links, theme toggle, and logout
+// Layout logic: navigation rendering, active links, theme toggle, and logout
 
 import { getSession, clearSession, getTheme, saveTheme } from './storage.js';
 import { showToast } from './ui.js';
 import { protectPage } from './guard.js';
 
 // 1. Protect the page (P0.1)
-// If no session, redirect to login immediately
 protectPage();
 
-// 2. Highlight the active navigation link (P0.2)
-const currentPage = window.location.pathname.split('/').pop();
-const navLinks = document.querySelectorAll('.nav-link');
+// 2. Render navigation sidebar (P0.2)
+function renderNavigation() {
+    const navContainer = document.getElementById('main-nav');
 
-navLinks.forEach(link => {
-    const linkPage = link.getAttribute('href');
-    if (linkPage === currentPage) {
-        link.classList.add('active');
-    }
-});
+    if (!navContainer) return; // If no container, exit
+
+    const currentPage = window.location.pathname.split('/').pop();
+
+    // Create navigation HTML
+    navContainer.innerHTML = `
+        <div class="logo">10X CRM</div>
+        <nav>
+            <a href="dashboard.html" class="nav-link ${currentPage === 'dashboard.html' ? 'active' : ''}">Dashboard</a>
+            <a href="clients.html" class="nav-link ${currentPage === 'clients.html' ? 'active' : ''}">Clients</a>
+            <a href="profile.html" class="nav-link ${currentPage === 'profile.html' ? 'active' : ''}">Profile</a>
+        </nav>
+        <div class="theme-toggle-container" style="margin-top: auto; padding: 12px 16px;">
+            <button id="themeToggle" class="theme-btn" style="width: 100%; padding: 8px; background: #334155; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                🌙 Dark
+            </button>
+        </div>
+        <button id="logoutBtn" class="logout-btn" style="margin-top: 8px; padding: 12px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            Logout
+        </button>
+    `;
+}
+
+// Render the navigation
+renderNavigation();
 
 // 3. Theme Toggle Logic (P0.3)
 const themeToggleBtn = document.getElementById('themeToggle');
@@ -30,6 +48,9 @@ if (currentTheme === 'light') {
 
 // Handle theme switch
 if (themeToggleBtn) {
+    // Set initial button text
+    themeToggleBtn.textContent = currentTheme === 'light' ? '☀️ Light' : ' Dark';
+
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
 
@@ -40,12 +61,9 @@ if (themeToggleBtn) {
         // Save to localStorage
         saveTheme(newTheme);
 
-        // Optional: update button icon/text if you have one
+        // Update button text
         themeToggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
     });
-
-    // Set initial button text
-    themeToggleBtn.textContent = currentTheme === 'light' ? '☀️ Light' : '🌙 Dark';
 }
 
 // 4. Logout Logic (P0.2)
