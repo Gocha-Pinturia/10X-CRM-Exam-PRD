@@ -130,6 +130,171 @@ async function handleDeleteClient(event) {
     }
 }
 
+// Get references to modal elements
+const addClientModal = document.getElementById('add-client-modal');
+const btnAddClient = document.getElementById('btn-add-client');
+const btnCloseModal = document.getElementById('btn-close-modal');
+const addClientForm = document.getElementById('add-client-form');
+
+/**
+ * Opens the add client modal
+ */
+function openAddClientModal() {
+    addClientModal.showModal(); // Native HTML5 dialog method (PRD P4.4)
+}
+
+/**
+ * Closes the add client modal and resets the form
+ */
+function closeAddClientModal() {
+    addClientModal.close();
+    addClientForm.reset();
+    clearAllErrors(addClientForm); // Clear any validation errors
+}
+
+/**
+ * Handles the submission of the new client form
+ * @param {Event} event - Submit event
+ */
+async function handleAddClient(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // 1. Get form values
+    const name = document.getElementById('client-name').value.trim();
+    const email = document.getElementById('client-email').value.trim().toLowerCase();
+    const phone = document.getElementById('client-phone').value.trim();
+    const company = document.getElementById('client-company').value.trim();
+    const dealValue = Number(document.getElementById('client-deal').value);
+    const status = document.getElementById('client-status').value;
+
+    // 2. Validation (P4.4)
+    let isValid = true;
+    clearAllErrors(addClientForm);
+
+    if (name.length < 3) {
+        showFieldError(document.getElementById('client-name'), 'Name must be at least 3 characters');
+        isValid = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showFieldError(document.getElementById('client-email'), 'Please enter a valid email address');
+        isValid = false;
+    } else {
+        // Check for duplicate email in existing clients
+        const emailExists = state.clients.some(client => client.email === email);
+        if (emailExists) {
+            showFieldError(document.getElementById('client-email'), 'A client with this email already exists');
+            isValid = false;
+        }
+    }
+
+    if (phone && phone.length < 6) {
+        showFieldError(document.getElementById('client-phone'), 'Phone number looks too short');
+        isValid = false;
+    }
+
+    if (isNaN(dealValue) || dealValue <= 0) {
+        showFieldError(document.getElementById('client-deal'), 'Deal value must be a positive number');
+        isValid = false;
+    }
+
+    if (!isValid) return; // Stop if validation fails
+
+    // 3. Prepare data for API (DummyJSON expects specific fields)
+    // We split the name to fake firstName and lastName for the API
+    const nameParts = name.split(' ');
+    const firstName = nameParts[0] || 'Unknown';
+    const lastName = nameParts.slice(1).join(' ') || 'Client';
+
+    const newClientData = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone || '+0000000000', // DummyJSON requires phone
+        company: { name: company || 'Freelance' }, // DummyJSON expects company object
+        status: status,
+        dealValue: dealValue
+    };
+
+    try {
+        // Show loading state on button (optional but good UX)
+        const submitBtn = addClientForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'Saving...';
+        submitBtn.disabled = true;
+
+        // 4. Send POST request to DummyJSON API
+        const response = await fetch('https://dummyjson.com/users/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newClientData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add client');
+        }
+
+        const apiResponse = await response.json();
+
+        // 5. Transform API response into our Client model (P4.4)
+        // Note: DummyJSON returns the added user. We adapt it to our structure.
+        const mappedNewClient = {
+            id: apiResponse.id,
+            name: `${apiResponse.firstName} ${apiResponse.lastName}`,
+            email: apiResponse.email,
+            phone: apiResponse.phone,
+            company: apiResponse.company.name,
+            image: apiResponse.image || 'https://dummyjson.com/icon/user/128',
+            status: status,
+            dealValue: dealValue,
+            notes: [],
+            createdAt: new Date().toISOString()
+        };
+
+        // 6. THE GOLDEN CYCLE:
+        // a) Update state (add to the BEGINNING of the array)
+        state.clients.unshift(mappedNewClient);
+
+        // b) Save to localStorage
+        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
+
+        // c) Re-render UI
+        renderClients(state.clients);
+
+        // 7. Success feedback
+        showToast('Client added ✓', 'success');
+        closeAddClientModal();
+
+    } catch (error) {
+        console.error('Error adding client:', error);
+        showToast('Failed to add client. Please try again.', 'error');
+    } finally {
+        // Restore button state
+        const submitBtn = addClientForm.querySelector('button[type="submit"]');
+        submitBtn.textContent = 'Save Client';
+        submitBtn.disabled = false;
+    }
+}
+
+// Attach event listeners for the modal
+if (btnAddClient) btnAddClient.addEventListener('click', openAddClientModal);
+if (btnCloseModal) btnCloseModal.addEventListener('click', closeAddClientModal);
+
+// Close modal when clicking outside of it (bonus UX from PRD)
+if (addClientModal) {
+    addClientModal.addEventListener('click', (event) => {
+        if (event.target === addClientModal) {
+            closeAddClientModal();
+        }
+    });
+}
+
+// Attach form submit listener
+if (addClientForm) {
+    addClientForm.addEventListener('submit', handleAddClient);
+}
+
 // Set up event listeners
 retryButton.addEventListener('click', initClientsPage);
 
