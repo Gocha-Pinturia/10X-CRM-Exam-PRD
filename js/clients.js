@@ -1,7 +1,8 @@
 // js/clients.js
 
-// Import the data loading function from the data module
-import { loadClientsData } from './data.js';
+// Import necessary functions and constants from other modules
+import { loadClientsData, STORAGE_KEYS } from './data.js';
+import { showToast } from './ui.js';
 
 // Get references to DOM elements we need to interact with
 const clientsListContainer = document.getElementById('clients-list');
@@ -22,7 +23,7 @@ function renderClients(clients) {
     // Clear the current list before rendering new data
     clientsListContainer.innerHTML = '';
 
-    // If no clients, show empty state message (P4.3)
+    // If no clients, show empty state message (PRD P4.3)
     if (clients.length === 0) {
         clientsListContainer.innerHTML = '<p class="empty-state">No clients found.</p>';
         return;
@@ -83,8 +84,57 @@ async function initClientsPage() {
     }
 }
 
+/**
+ * Handles delete button click - removes client from state and localStorage
+ * @param {Event} event - Click event
+ */
+async function handleDeleteClient(event) {
+    // Find the closest button with class 'btn-delete' (handles clicks on child elements)
+    const deleteButton = event.target.closest('.btn-delete');
+
+    // If clicked element is not a delete button, exit
+    if (!deleteButton) return;
+
+    // Get client ID from data-id attribute
+    const clientId = parseInt(deleteButton.dataset.id);
+
+    // Show confirmation dialog (PRD P4.5)
+    const confirmed = confirm('Delete this client? This cannot be undone.');
+
+    if (!confirmed) return;
+
+    try {
+        // Send DELETE request to DummyJSON API (PRD P4.5)
+        const response = await fetch(`https://dummyjson.com/users/${clientId}`, {
+            method: 'DELETE'
+        });
+
+        // Note: DummyJSON may return 404 for our added clients (it doesn't actually save them)
+        // But we still remove from state regardless of response status
+
+        // Remove client from state array using filter()
+        state.clients = state.clients.filter(client => client.id !== clientId);
+
+        // Save updated state to localStorage using imported constant
+        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
+
+        // Re-render the list
+        renderClients(state.clients);
+
+        // Show success toast notification (PRD P0.4)
+        showToast('Client deleted', 'success');
+
+    } catch (error) {
+        console.error('Error deleting client:', error);
+        showToast('Failed to delete client', 'error');
+    }
+}
+
 // Set up event listeners
 retryButton.addEventListener('click', initClientsPage);
+
+// Event delegation: listen for clicks on the entire clients list container
+clientsListContainer.addEventListener('click', handleDeleteClient);
 
 // Initialize the page when the script loads
 initClientsPage();

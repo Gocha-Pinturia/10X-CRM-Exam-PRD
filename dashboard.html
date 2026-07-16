@@ -1,1 +1,113 @@
-<!-- წვდომა დაცული -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - 10X CRM</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="app-page theme-dark">
+    <!-- Main Navigation (Populated by js/layout.js) -->
+    <nav id="main-nav" class="sidebar"></nav>
+
+    <!-- Main Content Area -->
+    <main class="content">
+      <!-- P3.1: Greeting and Live Clock -->
+      <header class="page-header">
+        <h1 id="greeting">Welcome back, User!</h1>
+        <div id="live-clock" class="live-clock">00:00:00</div>
+      </header>
+
+      <!-- P3.2: Statistics Cards -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Clients</h3>
+          <p id="stat-total" class="stat-value">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Active Deals</h3>
+          <p id="stat-active" class="stat-value">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Won Revenue</h3>
+          <p id="stat-won" class="stat-value">$0</p>
+        </div>
+        <div class="stat-card">
+          <h3>New This Week</h3>
+          <p id="stat-new" class="stat-value">0</p>
+        </div>
+      </section>
+
+      <!-- P3.3: Pipeline Overview -->
+      <section class="pipeline-overview">
+        <h2>Pipeline Overview</h2>
+        <div class="pipeline-bars">
+          <div class="pipeline-item">
+            <span class="pipeline-label">Lead</span>
+            <div class="pipeline-bar">
+              <div
+                id="pipeline-lead"
+                class="pipeline-fill status-lead"
+                style="width: 0%"
+              ></div>
+            </div>
+            <span id="pipeline-lead-count" class="pipeline-count">0</span>
+          </div>
+          <div class="pipeline-item">
+            <span class="pipeline-label">Contacted</span>
+            <div class="pipeline-bar">
+              <div
+                id="pipeline-contacted"
+                class="pipeline-fill status-contacted"
+                style="width: 0%"
+              ></div>
+            </div>
+            <span id="pipeline-contacted-count" class="pipeline-count">0</span>
+          </div>
+          <div class="pipeline-item">
+            <span class="pipeline-label">Won</span>
+            <div class="pipeline-bar">
+              <div
+                id="pipeline-won"
+                class="pipeline-fill status-won"
+                style="width: 0%"
+              ></div>
+            </div>
+            <span id="pipeline-won-count" class="pipeline-count">0</span>
+          </div>
+          <div class="pipeline-item">
+            <span class="pipeline-label">Lost</span>
+            <div class="pipeline-bar">
+              <div
+                id="pipeline-lost"
+                class="pipeline-fill status-lost"
+                style="width: 0%"
+              ></div>
+            </div>
+            <span id="pipeline-lost-count" class="pipeline-count">0</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- P3.4: Recent Clients -->
+      <section class="recent-clients">
+        <div class="section-header">
+          <h2>Recent Clients</h2>
+          <a href="clients.html" class="link-primary"
+            >View all clients &rarr;</a
+          >
+        </div>
+        <div id="recent-clients-list" class="clients-list-compact">
+          <p class="empty-state">Loading recent clients...</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Scripts loaded as ES6 modules -->
+    <!-- Guard must run first to protect the page -->
+    <script type="module" src="js/guard.js"></script>
+    <script type="module" src="js/layout.js"></script>
+    <script type="module" src="js/data.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+  </body>
+</html>

@@ -1,3 +1,6 @@
+/* ===================================
+   BASE STYLES
+   =================================== */
 * {
   margin: 0;
   padding: 0;
@@ -27,7 +30,224 @@ body.light-theme {
   color: #0f172a;
 }
 
-/* Layout styles for protected pages */
+/* ===================================
+   AUTH PAGES (signup, login)
+   =================================== */
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+.auth-card {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.auth-card h1 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #f1f5f9;
+}
+
+/* ===================================
+   FORM STYLES
+   =================================== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #f1f5f9;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #f1f5f9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.form-group input.input-error {
+  border-color: #ef4444;
+}
+
+.form-group .error-message {
+  display: block;
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
+/* ===================================
+   BUTTONS
+   =================================== */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-danger {
+  width: 100%;
+  padding: 12px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.btn-secondary {
+  padding: 8px 16px;
+  background-color: #64748b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #475569;
+}
+
+/* ===================================
+   AUTH LINKS
+   =================================== */
+.auth-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.auth-link a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* ===================================
+   TOAST NOTIFICATIONS
+   =================================== */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateX(400px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.toast.toast-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast.toast-hiding {
+  transform: translateX(400px);
+  opacity: 0;
+}
+
+.toast.toast-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.toast.toast-error {
+  background-color: #ef4444;
+  color: white;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 12px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.toast-close:hover {
+  opacity: 1;
+}
+
+/* ===================================
+   SIDEBAR NAVIGATION
+   =================================== */
 .sidebar {
   position: fixed;
   left: 0;
@@ -39,6 +259,7 @@ body.light-theme {
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  z-index: 100;
 }
 
 .sidebar .logo {
@@ -91,6 +312,9 @@ body.light-theme {
   background-color: #dc2626;
 }
 
+/* ===================================
+   MAIN CONTENT AREA
+   =================================== */
 .content {
   margin-left: 250px;
   padding: 32px;
@@ -115,7 +339,9 @@ body.light-theme {
   font-variant-numeric: tabular-nums;
 }
 
-/* Statistics cards */
+/* ===================================
+   STATISTICS CARDS
+   =================================== */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -143,7 +369,9 @@ body.light-theme {
   color: #f1f5f9;
 }
 
-/* Pipeline overview */
+/* ===================================
+   PIPELINE OVERVIEW
+   =================================== */
 .pipeline-overview {
   background-color: #1e293b;
   padding: 24px;
@@ -208,8 +436,11 @@ body.light-theme {
   font-weight: 600;
 }
 
-/* Recent clients */
-.recent-clients {
+/* ===================================
+   CLIENTS & RECENT CLIENTS
+   =================================== */
+.recent-clients,
+.clients-section {
   background-color: #1e293b;
   padding: 24px;
   border-radius: 12px;
@@ -236,13 +467,15 @@ body.light-theme {
   text-decoration: underline;
 }
 
-.clients-list-compact {
+.clients-list-compact,
+.clients-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.recent-client-item {
+.recent-client-item,
+.client-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -251,14 +484,39 @@ body.light-theme {
   border-radius: 8px;
 }
 
+.client-card {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.client-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.client-info h3,
 .recent-client-item .client-info h4 {
   font-size: 16px;
   margin-bottom: 4px;
 }
 
+.client-info p,
 .recent-client-item .client-info p {
   font-size: 14px;
   color: #94a3b8;
+}
+
+.client-email {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.client-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .status-badge {
@@ -268,24 +526,44 @@ body.light-theme {
   font-weight: 600;
 }
 
-.status-lead {
+.status-badge.status-lead {
   background-color: #3b82f6;
   color: white;
 }
 
-.status-contacted {
+.status-badge.status-contacted {
   background-color: #f59e0b;
   color: white;
 }
 
-.status-won {
+.status-badge.status-won {
   background-color: #10b981;
   color: white;
 }
 
-.status-lost {
+.status-badge.status-lost {
   background-color: #ef4444;
   color: white;
+}
+
+.deal-value {
+  font-weight: 600;
+  color: #10b981;
+}
+
+.btn-delete {
+  padding: 6px 12px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
 }
 
 .client-date {
@@ -293,276 +571,8 @@ body.light-theme {
   color: #94a3b8;
 }
 
-/* Light theme adjustments */
-body.light-theme .sidebar {
-  background-color: #ffffff;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-}
-
-body.light-theme .sidebar nav a {
-  color: #64748b;
-}
-
-body.light-theme .sidebar nav a:hover {
-  background-color: #f1f5f9;
-  color: #0f172a;
-}
-
-body.light-theme .sidebar nav a.active {
-  background-color: #3b82f6;
-  color: white;
-}
-
-body.light-theme .content {
-  background-color: #f8fafc;
-}
-
-body.light-theme .stat-card,
-body.light-theme .pipeline-overview,
-body.light-theme .recent-clients {
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-body.light-theme .stat-value {
-  color: #0f172a;
-}
-
-body.light-theme .recent-client-item {
-  background-color: #f1f5f9;
-}
-
 /* ===================================
-   AUTH & FORM STYLES (P1, P2)
-   =================================== */
-.auth-container {
-  width: 100%;
-  max-width: 420px;
-  padding: 20px;
-}
-
-.auth-card {
-  background: #1e293b;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-.auth-card h1 {
-  font-size: 24px;
-  margin-bottom: 24px;
-  text-align: center;
-  color: #f1f5f9;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  font-size: 14px;
-  color: #f1f5f9;
-}
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px 12px;
-  background-color: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #f1f5f9;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.form-group input::placeholder,
-.form-group select::placeholder {
-  color: #94a3b8;
-}
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-.form-group input.input-error,
-.form-group select.input-error {
-  border-color: #ef4444;
-}
-.form-group .error-message {
-  display: block;
-  color: #ef4444;
-  font-size: 12px;
-  margin-top: 4px;
-  min-height: 16px;
-}
-
-/* ===================================
-   BUTTONS
-   =================================== */
-.btn-primary {
-  width: 100%;
-  padding: 12px;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background-color 0.2s;
-}
-.btn-primary:hover {
-  background-color: rgb(11.1512195122, 99.1219512195, 242.8487804878);
-}
-
-.btn-danger {
-  width: 100%;
-  padding: 12px;
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background-color 0.2s;
-}
-.btn-danger:hover {
-  background-color: rgb(234.9802955665, 21.0197044335, 21.0197044335);
-}
-
-/* ===================================
-   AUTH LINKS
-   =================================== */
-.auth-link {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #94a3b8;
-}
-.auth-link a {
-  color: #3b82f6;
-  text-decoration: none;
-  font-weight: 500;
-}
-.auth-link a:hover {
-  text-decoration: underline;
-}
-
-/* ===================================
-   TOAST NOTIFICATIONS (P0.4)
-   =================================== */
-.toast-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 400px;
-}
-
-.toast {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: translateX(400px);
-  opacity: 0;
-  transition: all 0.3s ease;
-  color: white;
-}
-.toast.toast-visible {
-  transform: translateX(0);
-  opacity: 1;
-}
-.toast.toast-hiding {
-  transform: translateX(400px);
-  opacity: 0;
-}
-.toast.toast-success {
-  background-color: #10b981;
-}
-.toast.toast-error {
-  background-color: #ef4444;
-}
-.toast .toast-message {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-}
-.toast .toast-close {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 12px;
-  line-height: 1;
-  opacity: 0.8;
-}
-.toast .toast-close:hover {
-  opacity: 1;
-}
-
-/* ===================================
-   MODAL (P4.4, P4.8)
-   =================================== */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.modal[open] {
-  display: flex;
-}
-.modal .modal-content {
-  background-color: #1e293b;
-  border-radius: 12px;
-  padding: 32px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-.modal .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-.modal .modal-header h2 {
-  font-size: 20px;
-}
-.modal .btn-icon {
-  background: none;
-  border: none;
-  color: #94a3b8;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-}
-.modal .btn-icon:hover {
-  color: #f1f5f9;
-}
-
-/* ===================================
-   CLIENTS TOOLBAR & CARDS (P4.1, P4.3)
+   TOOLBAR (search, filters, sort)
    =================================== */
 .toolbar {
   display: flex;
@@ -571,6 +581,7 @@ body.light-theme .recent-client-item {
   flex-wrap: wrap;
   align-items: center;
 }
+
 .toolbar .input-field {
   flex: 1;
   min-width: 200px;
@@ -587,7 +598,8 @@ body.light-theme .recent-client-item {
   gap: 8px;
   flex-wrap: wrap;
 }
-.filter-chips .chip {
+
+.chip {
   padding: 8px 16px;
   background-color: #1e293b;
   border: 1px solid #334155;
@@ -596,10 +608,12 @@ body.light-theme .recent-client-item {
   font-size: 14px;
   transition: all 0.2s;
 }
-.filter-chips .chip:hover {
+
+.chip:hover {
   background-color: #334155;
 }
-.filter-chips .chip.active {
+
+.chip.active {
   background-color: #3b82f6;
   border-color: #3b82f6;
   color: white;
@@ -615,83 +629,78 @@ body.light-theme .recent-client-item {
   cursor: pointer;
 }
 
-.clients-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.client-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: #0f172a;
-  border-radius: 8px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.client-card .client-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.client-card .client-info {
-  flex: 1;
-}
-.client-card .client-info h3 {
-  font-size: 16px;
-  margin-bottom: 4px;
-}
-.client-card .client-info p {
-  font-size: 14px;
+/* ===================================
+   LOADING & ERROR STATES
+   =================================== */
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 40px;
   color: #94a3b8;
 }
-.client-card .client-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.client-card .status-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-}
-.client-card .status-badge.status-lead {
-  background-color: #3b82f6;
-}
-.client-card .status-badge.status-contacted {
-  background-color: #f59e0b;
-}
-.client-card .status-badge.status-won {
-  background-color: #10b981;
-}
-.client-card .status-badge.status-lost {
-  background-color: #ef4444;
-}
-.client-card .deal-value {
-  font-weight: 600;
-  color: #10b981;
-}
-.client-card .btn-delete {
-  padding: 6px 12px;
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.2s;
-}
-.client-card .btn-delete:hover {
-  background-color: rgb(234.9802955665, 21.0197044335, 21.0197044335);
+
+.error-state {
+  color: #ef4444;
 }
 
 /* ===================================
-   PROFILE PAGE (P5)
+   MODAL
+   =================================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal[open] {
+  display: flex;
+}
+
+.modal-content {
+  background-color: #1e293b;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-icon:hover {
+  color: #f1f5f9;
+}
+
+/* ===================================
+   PROFILE PAGE
    =================================== */
 .profile-section {
   background-color: #1e293b;
@@ -699,6 +708,7 @@ body.light-theme .recent-client-item {
   border-radius: 12px;
   margin-bottom: 24px;
 }
+
 .profile-section h2 {
   font-size: 18px;
   margin-bottom: 20px;
@@ -709,7 +719,8 @@ body.light-theme .recent-client-item {
   gap: 24px;
   align-items: flex-start;
 }
-.profile-info-card .profile-avatar {
+
+.profile-avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -722,19 +733,23 @@ body.light-theme .recent-client-item {
   color: white;
   flex-shrink: 0;
 }
-.profile-info-card .profile-details {
+
+.profile-details {
   flex: 1;
 }
-.profile-info-card .profile-row {
+
+.profile-row {
   display: flex;
   margin-bottom: 12px;
 }
-.profile-info-card .profile-row .profile-label {
+
+.profile-label {
   font-weight: 500;
   color: #94a3b8;
   width: 150px;
 }
-.profile-info-card .profile-row .profile-value {
+
+.profile-value {
   color: #f1f5f9;
 }
 
@@ -747,6 +762,7 @@ body.light-theme .recent-client-item {
   border-radius: 8px;
   padding: 20px;
 }
+
 .danger-zone p {
   color: #94a3b8;
   margin-bottom: 16px;
@@ -759,22 +775,27 @@ body.light-theme .auth-card,
 body.light-theme .stat-card,
 body.light-theme .pipeline-overview,
 body.light-theme .recent-clients,
+body.light-theme .clients-section,
 body.light-theme .profile-section,
 body.light-theme .modal-content {
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 body.light-theme .sidebar {
   background-color: #ffffff;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
+
 body.light-theme .sidebar nav a {
   color: #64748b;
 }
+
 body.light-theme .sidebar nav a:hover {
   background-color: #f1f5f9;
   color: #0f172a;
 }
+
 body.light-theme .form-group input,
 body.light-theme .form-group select,
 body.light-theme .input-field,
@@ -783,9 +804,37 @@ body.light-theme .select-field {
   color: #0f172a;
   border-color: #cbd5e1;
 }
+
+body.light-theme .form-group input::placeholder {
+  color: #64748b;
+}
+
 body.light-theme .client-card,
 body.light-theme .recent-client-item {
   background-color: #f1f5f9;
 }
 
-/*# sourceMappingURL=style.css.map */
+body.light-theme .chip {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+}
+
+body.light-theme .chip:hover {
+  background-color: #f1f5f9;
+}
+
+body.light-theme .pipeline-bar {
+  background-color: #e2e8f0;
+}
+
+body.light-theme .stat-value {
+  color: #0f172a;
+}
+
+body.light-theme .auth-card h1 {
+  color: #0f172a;
+}
+
+body.light-theme .form-group label {
+  color: #0f172a;
+}

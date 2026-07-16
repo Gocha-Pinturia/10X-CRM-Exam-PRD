@@ -1,61 +1,144 @@
-// js/data.js
+// js/clients.js
 
-// Define storage keys as constants to avoid typos (DRY principle)
-export const STORAGE_KEYS = {
-    CLIENTS: 'crm_clients',
-    USERS: 'crm_users',
-    SESSION: 'crm_session',
-    THEME: 'crm_theme'
+// Import the data loading function from the data module
+import { loadClientsData } from './data.js';
+
+// Get references to DOM elements we need to interact with
+const clientsListContainer = document.getElementById('clients-list');
+const loadingIndicator = document.getElementById('loading-indicator');
+const errorIndicator = document.getElementById('error-indicator');
+const retryButton = document.getElementById('btn-retry');
+
+// Main application state - will hold our clients array
+let state = {
+    clients: []
 };
 
-const API_URL = 'https://dummyjson.com/users?limit=30';
+/**
+ * Renders the list of clients to the DOM.
+ * @param {Array} clients - Array of client objects to render.
+ */
+function renderClients(clients) {
+    // Clear the current list before rendering new data
+    clientsListContainer.innerHTML = '';
+
+    // If no clients, show empty state message (P4.3)
+    if (clients.length === 0) {
+        clientsListContainer.innerHTML = '<p class="empty-state">No clients found.</p>';
+        return;
+    }
+
+    // Loop through each client and create a card
+    clients.forEach(client => {
+        // Create a card element for each client
+        const card = document.createElement('div');
+        card.className = 'client-card';
+        card.dataset.id = client.id; // Store client ID for future interactions
+
+        // Build the card's HTML content
+        card.innerHTML = `
+            <img src="${client.image}" alt="${client.name}" class="client-avatar">
+            <div class="client-info">
+                <h3 class="client-name">${client.name}</h3>
+                <p class="client-company">${client.company}</p>
+                <p class="client-email">${client.email}</p>
+            </div>
+            <div class="client-actions">
+                <span class="status-badge status-${client.status.toLowerCase()}">${client.status}</span>
+                <span class="deal-value">$${client.dealValue.toLocaleString()}</span>
+                <button class="btn-delete" data-id="${client.id}">Delete</button>
+            </div>
+        `;
+
+        // Add the card to the container
+        clientsListContainer.appendChild(card);
+    });
+}
 
 /**
- * Loads clients from localStorage or fetches them from the API.
- * @returns {Promise<Array>} Array of client objects.
+ * Initializes the clients page: loads data and renders it.
  */
-export async function loadClientsData() {
-    // 1. Check if data already exists in localStorage
-    const storedClients = localStorage.getItem(STORAGE_KEYS.CLIENTS);
-
-    if (storedClients) {
-        // Parse and return existing data (no API call needed)
-        return JSON.parse(storedClients);
-    }
+async function initClientsPage() {
+    // Show loading state
+    loadingIndicator.style.display = 'block';
+    errorIndicator.style.display = 'none';
+    clientsListContainer.innerHTML = '';
 
     try {
-        // 2. Fetch data from DummyJSON API if localStorage is empty
-        const response = await fetch(API_URL);
+        // Load clients data (from localStorage or API)
+        const clients = await loadClientsData();
 
-        // 3. Check if the response is successful (status 200-299)
-        if (!response.ok) {
-            throw new Error('Failed to fetch clients from API');
-        }
+        // Update application state
+        state.clients = clients;
 
-        const data = await response.json();
-
-        // 4. Transform API data into our Client object model (PRD 5.4)
-        const mappedClients = data.users.map(user => ({
-            id: user.id,
-            name: `${user.firstName} ${user.lastName}`,
-            email: user.email,
-            phone: user.phone,
-            company: user.company.name,
-            image: user.image,
-            status: 'Lead', // Default status as per PRD
-            dealValue: Math.floor(Math.random() * (10000 - 500 + 1)) + 500, // Random value between 500 and 10000
-            notes: [],
-            createdAt: new Date().toISOString()
-        }));
-
-        // 5. Save the transformed data to localStorage for future use
-        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(mappedClients));
-
-        return mappedClients;
+        // Hide loading indicator and render the data
+        loadingIndicator.style.display = 'none';
+        renderClients(clients);
 
     } catch (error) {
-        console.error('Error loading clients:', error);
-        // Note: UI error handling (showing "Could not load clients") will be implemented in clients.js
-        return [];
+        // Handle any errors during data loading
+        console.error('Failed to initialize clients page:', error);
+        loadingIndicator.style.display = 'none';
+        errorIndicator.style.display = 'block';
     }
 }
+
+// Set up event listeners
+retryButton.addEventListener('click', initClientsPage);
+
+// Initialize the page when the script loads
+initClientsPage();
+
+// Add this after the renderClients function
+
+/**
+ * Handles delete button click - removes client from state and localStorage
+ * @param {Event} event - Click event
+ */
+async function handleDeleteClient(event) {
+    // Find the closest button with class 'btn-delete' (handles clicks on child elements)
+    const deleteButton = event.target.closest('.btn-delete');
+
+    // If clicked element is not a delete button, exit
+    if (!deleteButton) return;
+
+    // Get client ID from data-id attribute
+    const clientId = parseInt(deleteButton.dataset.id);
+
+    // Show confirmation dialog (PRD P4.5)
+    const confirmed = confirm('Delete this client? This cannot be undone.');
+
+    if (!confirmed) return;
+
+    try {
+        // Send DELETE request to DummyJSON API (PRD P4.5)
+        const response = await fetch(`https://dummyjson.com/users/${clientId}`, {
+            method: 'DELETE'
+        });
+
+        // Note: DummyJSON may return 404 for our added clients (it doesn't actually save them)
+        // But we still remove from state regardless of response status
+
+        // Remove client from state array using filter()
+        state.clients = state.clients.filter(client => client.id !== clientId);
+
+        // Save updated state to localStorage
+        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
+
+        // Re-render the list
+        renderClients(state.clients);
+
+        // Show success toast (we'll implement toast system later)
+        console.log('Client deleted successfully');
+
+    } catch (error) {
+        console.error('Error deleting client:', error);
+        // Even if API fails, we could still remove from state
+        // But for now, let's keep it simple and only remove on success
+    }
+}
+
+// Add this at the end of the file, after initClientsPage() call
+
+// Event delegation: listen for clicks on the entire clients list container
+clientsListContainer.addEventListener('click', handleDeleteClient);
