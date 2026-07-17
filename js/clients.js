@@ -2,7 +2,7 @@
 
 // Import necessary functions and constants from other modules
 import { loadClientsData, STORAGE_KEYS } from './data.js';
-import { showToast } from './ui.js';
+import { showToast, showFieldError, clearAllErrors } from './ui.js'; // Added missing UI imports
 
 // Get references to DOM elements we need to interact with
 const clientsListContainer = document.getElementById('clients-list');
@@ -10,33 +10,77 @@ const loadingIndicator = document.getElementById('loading-indicator');
 const errorIndicator = document.getElementById('error-indicator');
 const retryButton = document.getElementById('btn-retry');
 
-// Main application state - will hold our clients array
+// Toolbar elements
+const searchInput = document.getElementById('search-input');
+const filterChipsContainer = document.getElementById('filter-chips');
+const sortSelect = document.getElementById('sort-select');
+
+// Modal elements
+const addClientModal = document.getElementById('add-client-modal');
+const btnAddClient = document.getElementById('btn-add-client');
+const btnCloseModal = document.getElementById('btn-close-modal');
+const addClientForm = document.getElementById('add-client-form');
+
+// Unified application state (Fixed: removed duplicate declaration)
 let state = {
-    clients: []
+    clients: [],
+    searchQuery: '',
+    filterStatus: 'All',
+    sortBy: 'newest'
 };
+
+/**
+ * Returns a filtered and sorted copy of the clients array.
+ * Does NOT mutate the original state.clients array.
+ * @returns {Array} Filtered and sorted clients.
+ */
+function getVisibleClients() {
+    let visible = [...state.clients];
+
+    // 1. Apply Status Filter
+    if (state.filterStatus !== 'All') {
+        visible = visible.filter(client => client.status === state.filterStatus);
+    }
+
+    // 2. Apply Search (by name or company)
+    if (state.searchQuery) {
+        const query = state.searchQuery.toLowerCase();
+        visible = visible.filter(client =>
+            client.name.toLowerCase().includes(query) ||
+            client.company.toLowerCase().includes(query)
+        );
+    }
+
+    // 3. Apply Sorting
+    if (state.sortBy === 'name-asc') {
+        visible.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (state.sortBy === 'deal-desc') {
+        visible.sort((a, b) => b.dealValue - a.dealValue);
+    } else {
+        // Default: 'newest' (createdAt descending)
+        visible.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
+    return visible;
+}
 
 /**
  * Renders the list of clients to the DOM.
  * @param {Array} clients - Array of client objects to render.
  */
 function renderClients(clients) {
-    // Clear the current list before rendering new data
     clientsListContainer.innerHTML = '';
 
-    // If no clients, show empty state message (PRD P4.3)
     if (clients.length === 0) {
         clientsListContainer.innerHTML = '<p class="empty-state">No clients found.</p>';
         return;
     }
 
-    // Loop through each client and create a card
     clients.forEach(client => {
-        // Create a card element for each client
         const card = document.createElement('div');
         card.className = 'client-card';
-        card.dataset.id = client.id; // Store client ID for future interactions
+        card.dataset.id = client.id;
 
-        // Build the card's HTML content
         card.innerHTML = `
             <img src="${client.image}" alt="${client.name}" class="client-avatar">
             <div class="client-info">
@@ -50,8 +94,6 @@ function renderClients(clients) {
                 <button class="btn-delete" data-id="${client.id}">Delete</button>
             </div>
         `;
-
-        // Add the card to the container
         clientsListContainer.appendChild(card);
     });
 }
@@ -60,24 +102,18 @@ function renderClients(clients) {
  * Initializes the clients page: loads data and renders it.
  */
 async function initClientsPage() {
-    // Show loading state
     loadingIndicator.style.display = 'block';
     errorIndicator.style.display = 'none';
     clientsListContainer.innerHTML = '';
 
     try {
-        // Load clients data (from localStorage or API)
         const clients = await loadClientsData();
+        state.clients = clients; // Update state
 
-        // Update application state
-        state.clients = clients;
-
-        // Hide loading indicator and render the data
         loadingIndicator.style.display = 'none';
-        renderClients(clients);
+        renderClients(getVisibleClients()); // Render with current filters/sort
 
     } catch (error) {
-        // Handle any errors during data loading
         console.error('Failed to initialize clients page:', error);
         loadingIndicator.style.display = 'none';
         errorIndicator.style.display = 'block';
@@ -85,81 +121,60 @@ async function initClientsPage() {
 }
 
 /**
- * Handles delete button click - removes client from state and localStorage
- * @param {Event} event - Click event
+ * Handles search input changes
  */
-async function handleDeleteClient(event) {
-    // Find the closest button with class 'btn-delete' (handles clicks on child elements)
-    const deleteButton = event.target.closest('.btn-delete');
-
-    // If clicked element is not a delete button, exit
-    if (!deleteButton) return;
-
-    // Get client ID from data-id attribute
-    const clientId = parseInt(deleteButton.dataset.id);
-
-    // Show confirmation dialog (PRD P4.5)
-    const confirmed = confirm('Delete this client? This cannot be undone.');
-
-    if (!confirmed) return;
-
-    try {
-        // Send DELETE request to DummyJSON API (PRD P4.5)
-        const response = await fetch(`https://dummyjson.com/users/${clientId}`, {
-            method: 'DELETE'
-        });
-
-        // Note: DummyJSON may return 404 for our added clients (it doesn't actually save them)
-        // But we still remove from state regardless of response status
-
-        // Remove client from state array using filter()
-        state.clients = state.clients.filter(client => client.id !== clientId);
-
-        // Save updated state to localStorage using imported constant
-        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
-
-        // Re-render the list
-        renderClients(state.clients);
-
-        // Show success toast notification (PRD P0.4)
-        showToast('Client deleted', 'success');
-
-    } catch (error) {
-        console.error('Error deleting client:', error);
-        showToast('Failed to delete client', 'error');
-    }
+function handleSearchInput(event) {
+    state.searchQuery = event.target.value;
+    renderClients(getVisibleClients());
 }
 
-// Get references to modal elements
-const addClientModal = document.getElementById('add-client-modal');
-const btnAddClient = document.getElementById('btn-add-client');
-const btnCloseModal = document.getElementById('btn-close-modal');
-const addClientForm = document.getElementById('add-client-form');
+/**
+ * Handles filter chip clicks
+ */
+function handleFilterClick(event) {
+    const chip = event.target.closest('.chip');
+    if (!chip) return;
+
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+
+    state.filterStatus = chip.dataset.status;
+    renderClients(getVisibleClients());
+}
+
+/**
+ * Handles sort select changes
+ */
+function handleSortChange(event) {
+    state.sortBy = event.target.value;
+    renderClients(getVisibleClients());
+}
 
 /**
  * Opens the add client modal
  */
 function openAddClientModal() {
-    addClientModal.showModal(); // Native HTML5 dialog method (PRD P4.4)
+    if (addClientModal) addClientModal.showModal();
 }
 
 /**
  * Closes the add client modal and resets the form
  */
 function closeAddClientModal() {
-    addClientModal.close();
-    addClientForm.reset();
-    clearAllErrors(addClientForm); // Clear any validation errors
+    if (addClientModal) {
+        addClientModal.close();
+        addClientForm.reset();
+        clearAllErrors(addClientForm); // Now works because it's imported
+    }
 }
 
 /**
- * Handles the submission of the new client form
+ * Handles the submission of the new client form (The Golden Cycle)
  * @param {Event} event - Submit event
  */
 async function handleAddClient(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
-    // 1. Get form values
     const name = document.getElementById('client-name').value.trim();
     const email = document.getElementById('client-email').value.trim().toLowerCase();
     const phone = document.getElementById('client-phone').value.trim();
@@ -167,10 +182,10 @@ async function handleAddClient(event) {
     const dealValue = Number(document.getElementById('client-deal').value);
     const status = document.getElementById('client-status').value;
 
-    // 2. Validation (P4.4)
     let isValid = true;
     clearAllErrors(addClientForm);
 
+    // Validation (PRD P4.4)
     if (name.length < 3) {
         showFieldError(document.getElementById('client-name'), 'Name must be at least 3 characters');
         isValid = false;
@@ -181,7 +196,6 @@ async function handleAddClient(event) {
         showFieldError(document.getElementById('client-email'), 'Please enter a valid email address');
         isValid = false;
     } else {
-        // Check for duplicate email in existing clients
         const emailExists = state.clients.some(client => client.email === email);
         if (emailExists) {
             showFieldError(document.getElementById('client-email'), 'A client with this email already exists');
@@ -199,46 +213,34 @@ async function handleAddClient(event) {
         isValid = false;
     }
 
-    if (!isValid) return; // Stop if validation fails
+    if (!isValid) return;
 
-    // 3. Prepare data for API (DummyJSON expects specific fields)
-    // We split the name to fake firstName and lastName for the API
     const nameParts = name.split(' ');
-    const firstName = nameParts[0] || 'Unknown';
-    const lastName = nameParts.slice(1).join(' ') || 'Client';
-
     const newClientData = {
-        firstName: firstName,
-        lastName: lastName,
+        firstName: nameParts[0] || 'Unknown',
+        lastName: nameParts.slice(1).join(' ') || 'Client',
         email: email,
-        phone: phone || '+0000000000', // DummyJSON requires phone
-        company: { name: company || 'Freelance' }, // DummyJSON expects company object
+        phone: phone || '+0000000000',
+        company: { name: company || 'Freelance' },
         status: status,
         dealValue: dealValue
     };
 
     try {
-        // Show loading state on button (optional but good UX)
         const submitBtn = addClientForm.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
         submitBtn.textContent = 'Saving...';
         submitBtn.disabled = true;
 
-        // 4. Send POST request to DummyJSON API
         const response = await fetch('https://dummyjson.com/users/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newClientData)
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to add client');
-        }
-
+        if (!response.ok) throw new Error('Failed to add client');
         const apiResponse = await response.json();
 
-        // 5. Transform API response into our Client model (P4.4)
-        // Note: DummyJSON returns the added user. We adapt it to our structure.
+        // Transform API response into our Client model
         const mappedNewClient = {
             id: apiResponse.id,
             name: `${apiResponse.firstName} ${apiResponse.lastName}`,
@@ -252,17 +254,16 @@ async function handleAddClient(event) {
             createdAt: new Date().toISOString()
         };
 
-        // 6. THE GOLDEN CYCLE:
-        // a) Update state (add to the BEGINNING of the array)
+        // THE GOLDEN CYCLE:
+        // 1. Update state (add to the BEGINNING of the array)
         state.clients.unshift(mappedNewClient);
 
-        // b) Save to localStorage
+        // 2. Save to localStorage
         localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
 
-        // c) Re-render UI
-        renderClients(state.clients);
+        // 3. Re-render UI WITH FILTERS/SORT PRESERVED (Fixed bug)
+        renderClients(getVisibleClients());
 
-        // 7. Success feedback
         showToast('Client added ✓', 'success');
         closeAddClientModal();
 
@@ -270,36 +271,60 @@ async function handleAddClient(event) {
         console.error('Error adding client:', error);
         showToast('Failed to add client. Please try again.', 'error');
     } finally {
-        // Restore button state
         const submitBtn = addClientForm.querySelector('button[type="submit"]');
         submitBtn.textContent = 'Save Client';
         submitBtn.disabled = false;
     }
 }
 
-// Attach event listeners for the modal
+/**
+ * Handles delete button click - removes client from state and localStorage
+ * @param {Event} event - Click event
+ */
+async function handleDeleteClient(event) {
+    const deleteButton = event.target.closest('.btn-delete');
+    if (!deleteButton) return;
+
+    const clientId = parseInt(deleteButton.dataset.id);
+    const confirmed = confirm('Delete this client? This cannot be undone.');
+
+    if (!confirmed) return;
+
+    try {
+        await fetch(`https://dummyjson.com/users/${clientId}`, { method: 'DELETE' });
+
+        // Remove from state regardless of API response (handles DummyJSON 404 quirk)
+        state.clients = state.clients.filter(client => client.id !== clientId);
+        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
+
+        renderClients(getVisibleClients());
+        showToast('Client deleted', 'success');
+
+    } catch (error) {
+        console.error('Error deleting client:', error);
+        showToast('Failed to delete client', 'error');
+    }
+}
+
+// --- Event Listeners Attachment ---
+if (searchInput) searchInput.addEventListener('input', handleSearchInput);
+if (filterChipsContainer) filterChipsContainer.addEventListener('click', handleFilterClick);
+if (sortSelect) sortSelect.addEventListener('change', handleSortChange);
+
 if (btnAddClient) btnAddClient.addEventListener('click', openAddClientModal);
 if (btnCloseModal) btnCloseModal.addEventListener('click', closeAddClientModal);
 
-// Close modal when clicking outside of it (bonus UX from PRD)
 if (addClientModal) {
     addClientModal.addEventListener('click', (event) => {
-        if (event.target === addClientModal) {
-            closeAddClientModal();
-        }
+        if (event.target === addClientModal) closeAddClientModal();
     });
 }
 
-// Attach form submit listener
-if (addClientForm) {
-    addClientForm.addEventListener('submit', handleAddClient);
-}
+if (addClientForm) addClientForm.addEventListener('submit', handleAddClient);
+if (retryButton) retryButton.addEventListener('click', initClientsPage);
 
-// Set up event listeners
-retryButton.addEventListener('click', initClientsPage);
-
-// Event delegation: listen for clicks on the entire clients list container
+// Event delegation for delete buttons
 clientsListContainer.addEventListener('click', handleDeleteClient);
 
-// Initialize the page when the script loads
+// Initialize the page
 initClientsPage();
