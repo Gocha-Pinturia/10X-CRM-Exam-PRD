@@ -90,6 +90,12 @@ function renderClients(clients) {
             </div>
             <div class="client-actions">
                 <span class="status-badge status-${client.status.toLowerCase()}">${client.status}</span>
+                <select class="status-select" data-id="${client.id}">
+                    <option value="Lead" ${client.status === 'Lead' ? 'selected' : ''}>Lead</option>
+                    <option value="Contacted" ${client.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                    <option value="Won" ${client.status === 'Won' ? 'selected' : ''}>Won</option>
+                    <option value="Lost" ${client.status === 'Lost' ? 'selected' : ''}>Lost</option>
+                </select>
                 <span class="deal-value">$${client.dealValue.toLocaleString()}</span>
                 <button class="btn-delete" data-id="${client.id}">Delete</button>
             </div>
@@ -504,5 +510,35 @@ function handleCardClick(event) {
     openClientDetails(clientId);
 }
 
+/**
+ * Handles status change on client card
+ * Updates client status in state, localStorage, and re-renders
+ * @param {Event} event - Change event from select element
+ */
+function handleStatusChange(event) {
+    const select = event.target.closest('.status-select');
+    if (!select) return;
+
+    const clientId = Number(select.dataset.id);
+    const newStatus = select.value;
+
+    // Find client and update status
+    const client = state.clients.find(c => c.id === clientId);
+    if (!client) return;
+
+    client.status = newStatus;
+
+    // Save to localStorage (Golden Cycle)
+    localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
+
+    // Re-render to update badge
+    renderClients(getVisibleClients());
+
+    showToast(`Status updated to ${newStatus}`, 'success');
+}
+
 // Initialize the page
 initClientsPage();
+
+// Event delegation for status change (P4.6)
+clientsListContainer.addEventListener('change', handleStatusChange);
