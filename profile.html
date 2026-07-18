@@ -28,7 +28,7 @@
                 <div class="profile-details">
                     <div class="profile-row">
                         <span class="profile-label">Full Name:</span>
-                        <span id="profile-fullname" class="profile-value">Loading...</span>
+                        <span id="profile-full-name" class="profile-value">Loading...</span>
                     </div>
                     <div class="profile-row">
                         <span class="profile-label">Email:</span>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="profile-row">
                         <span class="profile-label">Member since:</span>
-                        <span id="profile-since" class="profile-value">Loading...</span>
+                        <span id="profile-member-since" class="profile-value">Loading...</span>
                     </div>
                 </div>
             </div>
@@ -51,15 +51,15 @@
             <h2>Edit Profile</h2>
             <form id="edit-profile-form" class="profile-form" novalidate>
                 <div class="form-group">
-                    <label for="edit-fullname">Full Name</label>
-                    <input type="text" id="edit-fullname" name="fullname" required>
+                    <label for="edit-full-name">Full Name</label>
+                    <input type="text" id="edit-full-name" name="fullname" required>
                     <span class="error-message" id="error-fullname"></span>
                 </div>
                 <div class="form-group">
                     <label for="edit-company">Company</label>
                     <input type="text" id="edit-company" name="company">
                 </div>
-                <button type="submit" class="btn-primary">Save Changes</button>
+                <button type="submit" id="btn-save-changes" class="btn-primary">Save Changes</button>
             </form>
         </section>
 
@@ -82,7 +82,7 @@
                     <input type="password" id="confirm-password" name="confirmPassword" required>
                     <span class="error-message" id="error-confirm"></span>
                 </div>
-                <button type="submit" class="btn-primary">Change Password</button>
+                <button type="submit" id="btn-change-password" class="btn-primary">Change Password</button>
             </form>
         </section>
 
