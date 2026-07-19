@@ -815,18 +815,15 @@ body.light-theme {
 
 // Bottom Navigation Bar (Mobile Only)
 .bottom-nav {
-  display: none; // Hidden by default on desktop
+  display: none; // Hidden by default (shown only on mobile via media query)
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--sidebar-bg, #1a1f2e); // Fallback color if variable is missing
+  background-color: var(--sidebar-bg, #1a1f2e);
   border-top: 1px solid var(--border-color, #2d3748);
   padding: 0.5rem 0;
-  z-index: 1000; // Ensure it stays above other content
-  
-  // Flexbox layout for equal spacing
-  display: flex;
+  z-index: 1000;
   justify-content: space-around;
   align-items: center;
 
@@ -843,7 +840,6 @@ body.light-theme {
     cursor: pointer;
     transition: color 0.3s ease;
 
-    // Active and hover states
     &:hover,
     &.active {
       color: var(--primary-color, #4a90e2);
