@@ -1,99 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile - 10X CRM</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body class="app-page theme-dark">
-
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="app-page theme-dark">
     <!-- Main Navigation (Populated by js/layout.js) -->
     <nav id="main-nav" class="sidebar"></nav>
 
     <!-- Main Content Area -->
     <main class="content">
-        <!-- Page Header -->
-        <header class="page-header">
-            <h1>Profile</h1>
-        </header>
+      <button class="hamburger-btn" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <!-- Page Header -->
+      <header class="page-header">
+        <h1>Profile</h1>
+      </header>
 
-        <!-- P5.1: User Information Block -->
-        <section class="profile-section">
-            <h2>Account Information</h2>
-            <div class="profile-info-card">
-                <div class="profile-avatar" id="profile-avatar">
-                    <!-- Initials will be inserted here -->
-                </div>
-                <div class="profile-details">
-                    <div class="profile-row">
-                        <span class="profile-label">Full Name:</span>
-                        <span id="profile-full-name" class="profile-value">Loading...</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="profile-label">Email:</span>
-                        <span id="profile-email" class="profile-value">Loading...</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="profile-label">Company:</span>
-                        <span id="profile-company" class="profile-value">Loading...</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="profile-label">Member since:</span>
-                        <span id="profile-member-since" class="profile-value">Loading...</span>
-                    </div>
-                </div>
+      <!-- P5.1: User Information Block -->
+      <section class="profile-section">
+        <h2>Account Information</h2>
+        <div class="profile-info-card">
+          <div class="profile-avatar" id="profile-avatar">
+            <!-- Initials will be inserted here -->
+          </div>
+          <div class="profile-details">
+            <div class="profile-row">
+              <span class="profile-label">Full Name:</span>
+              <span id="profile-full-name" class="profile-value"
+                >Loading...</span
+              >
             </div>
-        </section>
-
-        <!-- P5.2: Profile Editing Form -->
-        <section class="profile-section">
-            <h2>Edit Profile</h2>
-            <form id="edit-profile-form" class="profile-form" novalidate>
-                <div class="form-group">
-                    <label for="edit-full-name">Full Name</label>
-                    <input type="text" id="edit-full-name" name="fullname" required>
-                    <span class="error-message" id="error-fullname"></span>
-                </div>
-                <div class="form-group">
-                    <label for="edit-company">Company</label>
-                    <input type="text" id="edit-company" name="company">
-                </div>
-                <button type="submit" id="btn-save-changes" class="btn-primary">Save Changes</button>
-            </form>
-        </section>
-
-        <!-- P5.3: Password Change Form -->
-        <section class="profile-section">
-            <h2>Change Password</h2>
-            <form id="change-password-form" class="profile-form" novalidate>
-                <div class="form-group">
-                    <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" name="currentPassword" required>
-                    <span class="error-message" id="error-current"></span>
-                </div>
-                <div class="form-group">
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" name="newPassword" required>
-                    <span class="error-message" id="error-new"></span>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" name="confirmPassword" required>
-                    <span class="error-message" id="error-confirm"></span>
-                </div>
-                <button type="submit" id="btn-change-password" class="btn-primary">Change Password</button>
-            </form>
-        </section>
-
-        <!-- P5.4: Data Management -->
-        <section class="profile-section">
-            <h2>Data Management</h2>
-            <div class="danger-zone">
-                <p>Reset all CRM data to default. This will delete all clients and reload from API.</p>
-                <button id="btn-reset-data" class="btn-danger">Reset CRM Data</button>
+            <div class="profile-row">
+              <span class="profile-label">Email:</span>
+              <span id="profile-email" class="profile-value">Loading...</span>
             </div>
-        </section>
+            <div class="profile-row">
+              <span class="profile-label">Company:</span>
+              <span id="profile-company" class="profile-value">Loading...</span>
+            </div>
+            <div class="profile-row">
+              <span class="profile-label">Member since:</span>
+              <span id="profile-member-since" class="profile-value"
+                >Loading...</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- P5.2: Profile Editing Form -->
+      <section class="profile-section">
+        <h2>Edit Profile</h2>
+        <form id="edit-profile-form" class="profile-form" novalidate>
+          <div class="form-group">
+            <label for="edit-full-name">Full Name</label>
+            <input type="text" id="edit-full-name" name="fullname" required />
+            <span class="error-message" id="error-fullname"></span>
+          </div>
+          <div class="form-group">
+            <label for="edit-company">Company</label>
+            <input type="text" id="edit-company" name="company" />
+          </div>
+          <button type="submit" id="btn-save-changes" class="btn-primary">
+            Save Changes
+          </button>
+        </form>
+      </section>
+
+      <!-- P5.3: Password Change Form -->
+      <section class="profile-section">
+        <h2>Change Password</h2>
+        <form id="change-password-form" class="profile-form" novalidate>
+          <div class="form-group">
+            <label for="current-password">Current Password</label>
+            <input
+              type="password"
+              id="current-password"
+              name="currentPassword"
+              required
+            />
+            <span class="error-message" id="error-current"></span>
+          </div>
+          <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input
+              type="password"
+              id="new-password"
+              name="newPassword"
+              required
+            />
+            <span class="error-message" id="error-new"></span>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirmPassword"
+              required
+            />
+            <span class="error-message" id="error-confirm"></span>
+          </div>
+          <button type="submit" id="btn-change-password" class="btn-primary">
+            Change Password
+          </button>
+        </form>
+      </section>
+
+      <!-- P5.4: Data Management -->
+      <section class="profile-section">
+        <h2>Data Management</h2>
+        <div class="danger-zone">
+          <p>
+            Reset all CRM data to default. This will delete all clients and
+            reload from API.
+          </p>
+          <button id="btn-reset-data" class="btn-danger">Reset CRM Data</button>
+        </div>
+      </section>
     </main>
 
     <!-- Scripts loaded as ES6 modules -->
@@ -102,5 +132,6 @@
     <script type="module" src="js/data.js"></script>
     <script type="module" src="js/ui.js"></script>
     <script type="module" src="js/profile.js"></script>
-</body>
+    <script type="module" src="js/responsive.js"></script>
+  </body>
 </html>
