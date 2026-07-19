@@ -18,3 +18,14 @@ $text-light: #0f172a;
 $text-muted-light: #64748b;
 $border-light: #cbd5e1;
 $input-bg-light: #ffffff;
+
+// Responsive breakpoints
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;
+
+// Mixin for mobile devices (screens smaller than tablet)
+@mixin mobile {
+  @media (max-width: #{$breakpoint-tablet - 1}) {
+    @content;
+  }
+}
