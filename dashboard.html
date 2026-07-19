@@ -9,28 +9,14 @@
   <body class="app-page theme-dark">
     <!-- Main Navigation (Populated by js/layout.js) -->
     <nav id="main-nav" class="sidebar"></nav>
-    <!-- Bottom Navigation (Mobile Only) -->
-    <nav class="bottom-nav">
-      <a href="dashboard.html" class="bottom-nav__item">
-        <span class="bottom-nav__icon">📊</span>
-        <span class="bottom-nav__text">Dashboard</span>
-      </a>
-      <a href="clients.html" class="bottom-nav__item">
-        <span class="bottom-nav__icon">👥</span>
-        <span class="bottom-nav__text">Clients</span>
-      </a>
-      <a href="profile.html" class="bottom-nav__item">
-        <span class="bottom-nav__icon">👤</span>
-        <span class="bottom-nav__text">Profile</span>
-      </a>
-      <button class="bottom-nav__item" id="logoutMobile">
-        <span class="bottom-nav__icon">🚪</span>
-        <span class="bottom-nav__text">Logout</span>
-      </button>
-    </nav>
 
     <!-- Main Content Area -->
     <main class="content">
+      <button class="hamburger-btn" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <!-- P3.1: Greeting and Live Clock -->
       <header class="page-header">
         <h1 id="greeting">Welcome back, User!</h1>
@@ -128,5 +114,6 @@
     <script type="module" src="js/layout.js"></script>
     <script type="module" src="js/data.js"></script>
     <script type="module" src="js/dashboard.js"></script>
+    <script type="module" src="js/responsive.js"></script>
   </body>
 </html>

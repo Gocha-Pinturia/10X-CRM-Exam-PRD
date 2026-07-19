@@ -19,13 +19,8 @@ $text-muted-light: #64748b;
 $border-light: #cbd5e1;
 $input-bg-light: #ffffff;
 
-// Responsive breakpoints
-$breakpoint-tablet: 768px;
-$breakpoint-mobile: 480px;
+// Breakpoints for responsive design
+$breakpoint-mobile: 767px;
+$breakpoint-tablet: 1023px;
+$breakpoint-desktop: 1024px;
 
-// Mixin for mobile devices (screens smaller than tablet)
-@mixin mobile {
-  @media (max-width: #{$breakpoint-tablet - 1}) {
-    @content;
-  }
-}

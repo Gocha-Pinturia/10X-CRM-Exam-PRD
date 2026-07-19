@@ -813,41 +813,309 @@ body.light-theme {
   }
 }
 
-// Bottom Navigation Bar (Mobile Only)
-.bottom-nav {
-  display: none; // Hidden by default (shown only on mobile via media query)
+/* Hamburger menu button (mobile only) */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 101;
+
+  span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: $text-color;
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    display: flex;
+  }
+}
+
+/* Overlay for mobile sidebar */
+.sidebar-overlay {
+  display: none;
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   right: 0;
-  background-color: var(--sidebar-bg, #1a1f2e);
-  border-top: 1px solid var(--border-color, #2d3748);
-  padding: 0.5rem 0;
-  z-index: 1000;
-  justify-content: space-around;
-  align-items: center;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
 
-  &__item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem;
-    color: var(--text-muted, #a0aec0);
-    text-decoration: none;
-    font-size: 0.75rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
+  @media (max-width: $breakpoint-mobile) {
+    &.overlay-active {
+      display: block;
+    }
+  }
+}
 
-    &:hover,
-    &.active {
-      color: var(--primary-color, #4a90e2);
+/* ===================================
+RESPONSIVE DESIGN - TABLET (≤ 1023px)
+=================================== */
+@media (max-width: $breakpoint-tablet) {
+  // Stats grid: 2 columns on tablet
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // Sidebar: narrower on tablet
+  .sidebar {
+    width: 200px;
+    padding: 20px 12px;
+
+    .logo {
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    nav a {
+      padding: 10px 12px;
+      font-size: 14px;
     }
   }
 
-  &__icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
+  // Content: adjust margin for narrower sidebar
+  .content {
+    margin-left: 200px;
+    padding: 24px;
+  }
+
+  // Pipeline: slightly smaller labels
+  .pipeline-label {
+    width: 80px;
+    font-size: 14px;
+  }
+}
+
+/* ===================================
+RESPONSIVE DESIGN - MOBILE (≤ 767px)
+=================================== */
+@media (max-width: $breakpoint-mobile) {
+  // Sidebar: hidden on mobile (will add hamburger menu later)
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+
+    &.sidebar-open {
+      transform: translateX(0);
+    }
+  }
+
+  // Content: full width on mobile
+  .content {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  // Page header: stack on mobile
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    h1 {
+      font-size: 24px;
+    }
+
+    .live-clock {
+      font-size: 16px;
+    }
+  }
+
+  // Stats grid: 1 column on mobile
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
+
+    h3 {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+    }
+  }
+
+  // Pipeline: stack labels and bars
+  .pipeline-overview {
+    padding: 16px;
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .pipeline-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pipeline-label {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .pipeline-bar {
+    flex: 1;
+    min-width: 100%;
+  }
+
+  .pipeline-count {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  // Recent clients: stack info
+  .recent-clients {
+    padding: 16px;
+
+    h2 {
+      font-size: 18px;
+    }
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .recent-client-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+
+    .client-info h4 {
+      font-size: 14px;
+    }
+
+    .client-info p {
+      font-size: 12px;
+    }
+
+    .status-badge {
+      align-self: flex-start;
+    }
+
+    .client-date {
+      font-size: 12px;
+    }
+  }
+
+  // Toolbar: stack on mobile
+  .toolbar {
+    flex-direction: column;
+    gap: 12px;
+
+    .input-field {
+      width: 100%;
+    }
+  }
+
+  .filter-chips {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+
+    .chip {
+      flex-shrink: 0;
+    }
+  }
+
+  // Client cards: stack on mobile
+  .client-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+
+    .client-info {
+      width: 100%;
+
+      h3 {
+        font-size: 14px;
+      }
+
+      p {
+        font-size: 12px;
+      }
+    }
+
+    .client-actions {
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
+
+  // Profile: stack elements
+  .profile-info-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      font-size: 24px;
+    }
+
+    .profile-row {
+      flex-direction: column;
+      gap: 4px;
+
+      .profile-label {
+        width: 100%;
+        font-size: 12px;
+      }
+
+      .profile-value {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .profile-section {
+    padding: 16px;
+
+    h2 {
+      font-size: 16px;
+    }
+  }
+
+  // Modal: full-screen on mobile
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding: 24px 16px;
+  }
+
+  // Toast: narrower on mobile
+  .toast-container {
+    right: 12px;
+    left: 12px;
+    max-width: none;
+  }
+
+  .toast {
+    padding: 12px 16px;
+
   }
 }
