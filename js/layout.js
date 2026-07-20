@@ -4,6 +4,8 @@ import { getSession, clearSession, getTheme, saveTheme } from './storage.js';
 import { showToast } from './ui.js';
 import { protectPage } from './guard.js';
 
+const btn = document.querySelector('.hamburger-btn');
+
 // 1. Protect the page (P0.1)
 protectPage();
 
@@ -44,15 +46,18 @@ const currentTheme = getTheme();
 // Apply the saved theme on page load
 if (currentTheme === 'light') {
     document.body.classList.add('light-theme');
+    btn.classList.toggle('color-changed');
 }
 
 // Handle theme switch
 if (themeToggleBtn) {
     // Set initial button text
-    themeToggleBtn.textContent = currentTheme === 'light' ? '☀️ Light' : ' Dark';
+    themeToggleBtn.textContent = currentTheme === 'light' ? '🌙  Dark' : '☀️ Light';
 
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
+        btn.classList.toggle('color-changed');
+
 
         // Check if light theme is now active
         const isLight = document.body.classList.contains('light-theme');
@@ -62,7 +67,7 @@ if (themeToggleBtn) {
         saveTheme(newTheme);
 
         // Update button text
-        themeToggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
+        themeToggleBtn.textContent = isLight ? '🌙 Dark' : '☀️ Light';
     });
 }
 

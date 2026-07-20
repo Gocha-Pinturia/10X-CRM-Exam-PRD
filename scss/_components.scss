@@ -82,6 +82,8 @@
 .page-header h1 {
   font-size: 28px;
   font-weight: 700;
+  margin-right: 10px;
+  margin-top: 8px;
 }
 
 .live-clock {
@@ -582,12 +584,16 @@ body.light-theme .recent-client-item {
 }
 
 .filter-chips {
+  width: 100%;
   display: flex;
-  gap: 8px;
+  gap: clamp(8px, 3vw, 40px);
+  // gap: 8px;
+  justify-content: center;
   flex-wrap: wrap;
 
   .chip {
-    padding: 8px 16px;
+    // padding: 8px 16px;
+    padding: clamp(4px, 8px, 8px) clamp(8px, 3vw, 46px);
     background-color: $card-bg;
     border: 1px solid $border-color;
     border-radius: 20px;
@@ -834,7 +840,12 @@ body.light-theme {
 
   @media (max-width: $breakpoint-mobile) {
     display: flex;
+
   }
+}
+
+.hamburger-btn.color-changed span {
+  background-color: #0f172a;
 }
 
 /* Overlay for mobile sidebar */
@@ -916,12 +927,16 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
 
   // Page header: stack on mobile
   .page-header {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    // align-items: flex-start;
+    // justify-content: s;
     gap: 12px;
+    
 
     h1 {
       font-size: 24px;
+      margin-top: 10px;
     }
 
     .live-clock {
