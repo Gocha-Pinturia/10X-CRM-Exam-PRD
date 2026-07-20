@@ -520,15 +520,16 @@ body.light-theme .recent-client-item {
    =================================== */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  border-radius: 15px;
 }
 .modal[open] {
   display: flex;
@@ -538,7 +539,7 @@ body.light-theme .recent-client-item {
   border-radius: 12px;
   padding: 32px;
   max-width: 500px;
-  width: 90%;
+  width: 100%;
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -550,6 +551,7 @@ body.light-theme .recent-client-item {
 }
 .modal .modal-header h2 {
   font-size: 20px;
+  color: #f1f5f9;
 }
 .modal .btn-icon {
   background: none;
@@ -600,6 +602,7 @@ body.light-theme .recent-client-item {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
+  color: #ebe8e8;
 }
 .filter-chips .chip:hover {
   background-color: #334155;
@@ -769,12 +772,33 @@ body.light-theme .modal-content {
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+body.light-theme .auth-card label, body.light-theme .auth-card .profile-value,
+body.light-theme .stat-card label,
+body.light-theme .stat-card .profile-value,
+body.light-theme .pipeline-overview label,
+body.light-theme .pipeline-overview .profile-value,
+body.light-theme .recent-clients label,
+body.light-theme .recent-clients .profile-value,
+body.light-theme .profile-section label,
+body.light-theme .profile-section .profile-value,
+body.light-theme .modal-content label,
+body.light-theme .modal-content .profile-value {
+  color: black;
+}
+body.light-theme .auth-card h2,
+body.light-theme .stat-card h2,
+body.light-theme .pipeline-overview h2,
+body.light-theme .recent-clients h2,
+body.light-theme .profile-section h2,
+body.light-theme .modal-content h2 {
+  color: #0f172a;
+}
 body.light-theme .sidebar {
   background-color: #ffffff;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 body.light-theme .sidebar nav a {
-  color: #64748b;
+  color: #0f172a;
 }
 body.light-theme .sidebar nav a:hover {
   background-color: #f1f5f9;
@@ -819,6 +843,21 @@ body.light-theme .recent-client-item {
 
 .hamburger-btn.color-changed span {
   background-color: #0f172a;
+}
+
+.filter-chips .chip-color-changed {
+  background-color: #e6e7e7;
+  color: #0f172a;
+  border: none;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+.filter-chips .chip-color-changed:hover {
+  background-color: #94a3b8;
+}
+.filter-chips .chip-color-changed.active {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
 }
 
 /* Overlay for mobile sidebar */
