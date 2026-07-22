@@ -1094,19 +1094,13 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
 }
 
 #client-details-modal {
-  border: none;
-  border-radius: 16px;
+  border-radius: 15px;
   padding: 0;
   max-width: 500px;
   width: 90%;
   background: var(--bg-secondary, #1e293b);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  position: relative;
   overflow: hidden;
-}
-#client-details-modal::backdrop {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
 }
 
 .modal-close {
@@ -1192,26 +1186,30 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
 
 .note-item {
   background: rgba(255, 255, 255, 0.05);
-  border-left: 3px solid var(--primary, #3b82f6);
   padding: 12px;
   margin-bottom: 8px;
   border-radius: 8px;
   transition: all 0.2s;
-}
-.note-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(4px);
+  color: #f1f5f9;
 }
 .note-item .note-text {
   margin: 0 0 4px;
   font-size: 14px;
-  color: var(--text-primary, #f1f5f9);
   line-height: 1.4;
 }
 .note-item .note-date {
   margin: 0;
   font-size: 11px;
   color: var(--text-muted, #94a3b8);
+}
+
+body.light-theme .note-text {
+  color: #0f172a;
+}
+
+body.light-theme .note-item {
+  background-color: #ffffff;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .add-note-form {

@@ -474,6 +474,10 @@ if (btnCloseDetails) {
     });
 }
 
+clientDetailsModal.addEventListener('click', (event) => {
+    if (event.target === clientDetailsModal) clientDetailsModal.close();
+})
+
 if (btnAddNote) {
     btnAddNote.addEventListener('click', handleAddNote);
 }

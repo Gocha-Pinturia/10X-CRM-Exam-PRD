@@ -34,7 +34,9 @@ let state = {
 function startLiveClock() {
     const updateClock = () => {
         const now = new Date();
-        clockElement.textContent = now.toLocaleTimeString();
+        const dateString = now.toLocaleDateString();
+        const timeString = now.toLocaleTimeString();
+        clockElement.textContent = `${dateString} ${timeString}`;
     };
 
     updateClock(); // Update immediately
