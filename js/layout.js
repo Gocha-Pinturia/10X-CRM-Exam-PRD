@@ -17,7 +17,7 @@ function renderNavigation() {
 
     // Create navigation HTML
     navContainer.innerHTML = `
-        <div class="logo">10X CRM</div>
+        <div class="logo"><a href="../dashboard.html"><img src="../logo/gemini-svg.svg"></a></div>
         <nav>
             <a href="dashboard.html" class="nav-link ${currentPage === 'dashboard.html' ? 'active' : ''}">Dashboard</a>
             <a href="clients.html" class="nav-link ${currentPage === 'clients.html' ? 'active' : ''}">Clients</a>

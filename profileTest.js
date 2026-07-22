@@ -29,53 +29,6 @@ const resetBtn = document.getElementById('btn-reset-data');
 let currentUser = null;
 
 /**
- * Extracts initials from a full name (e.g., "John Doe" -> "JD", "Alice" -> "AL")
- * @param {string} fullName - The user's full name
- * @returns {string} - The initials (up to 2 characters, uppercase)
- */
-function getInitials(fullName) {
-    if (!fullName || typeof fullName !== 'string') {
-        return 'U'; // Default fallback for undefined/empty names
-    }
-
-    const names = fullName.trim().split(' ');
-
-    if (names.length === 0) return 'U';
-    if (names.length === 1) {
-        // If only one name is provided, take the first 2 letters
-        return names[0].substring(0, 2).toUpperCase();
-    }
-
-    // Take the first letter of the first name and the first letter of the last name
-    const initials = names[0].charAt(0) + names[names.length - 1].charAt(0);
-    return initials.toUpperCase();
-}
-
-/**
- * Generates a consistent gradient color based on the user's name
- * This ensures the same user always gets the same avatar color
- * @param {string} fullName - The user's full name
- * @returns {string} - CSS linear-gradient string
- */
-function getAvatarColor(fullName) {
-    const colors = [
-        'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', // Blue
-        'linear-gradient(135deg, #10b981 0%, #059669 100%)', // Green
-        'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', // Orange
-        'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', // Purple
-        'linear-gradient(135deg, #ec4899 0%, #db2777 100%)', // Pink
-    ];
-
-    // Calculate a deterministic hash from the string
-    let sum = 0;
-    for (let i = 0; i < fullName.length; i++) {
-        sum += fullName.charCodeAt(i);
-    }
-
-    return colors[sum % colors.length];
-}
-
-/**
  * Loads current user data from session and crm_users
  */
 function loadUserProfile() {
@@ -93,23 +46,14 @@ function loadUserProfile() {
         return;
     }
 
-    // 1. Display user info (P5.1)
+    // Display user info (P5.1)
+    // document.getElementById('profile-avatar').textContent = initialsOf(users.fullName);
     accountInfo.fullName.textContent = currentUser.fullName;
     accountInfo.email.textContent = currentUser.email;
     accountInfo.company.textContent = currentUser.company || 'Not specified';
     accountInfo.memberSince.textContent = new Date(currentUser.createdAt).toLocaleDateString();
 
-    // 2. Dynamically render initials in the avatar circle
-    const avatarElement = document.getElementById('profile-avatar');
-    if (avatarElement) {
-        const initials = getInitials(currentUser.fullName);
-        avatarElement.textContent = initials;
-
-        // Apply dynamic background color based on the name
-        avatarElement.style.background = getAvatarColor(currentUser.fullName);
-    }
-
-    // 3. Pre-fill edit form with current data
+    // Pre-fill edit form
     editForm.fullName.value = currentUser.fullName;
     editForm.company.value = currentUser.company || '';
 }
@@ -129,7 +73,7 @@ function handleSaveChanges(event) {
         return;
     }
 
-    // Update user data in memory
+    // Update user data
     currentUser.fullName = fullName;
     currentUser.company = company;
 
@@ -141,7 +85,14 @@ function handleSaveChanges(event) {
         localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
     }
 
-    // Re-load profile to update display (including new initials if name changed)
+    // Update session if needed
+    const session = JSON.parse(localStorage.getItem(STORAGE_KEYS.SESSION));
+    if (session) {
+        session.email = currentUser.email;
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(session));
+    }
+
+    // Re-load profile to update display
     loadUserProfile();
 
     showToast('Profile updated ✓', 'success');
@@ -178,7 +129,7 @@ function handleChangePassword(event) {
         return;
     }
 
-    // Update password in memory
+    // Update password
     currentUser.password = newPassword;
 
     // Save to localStorage
@@ -189,7 +140,7 @@ function handleChangePassword(event) {
         localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
     }
 
-    // Clear form fields
+    // Clear form
     passwordForm.current.value = '';
     passwordForm.new.value = '';
     passwordForm.confirm.value = '';
@@ -205,7 +156,7 @@ function handleResetData() {
         return;
     }
 
-    // Delete clients data from localStorage
+    // Delete clients data
     localStorage.removeItem(STORAGE_KEYS.CLIENTS);
 
     // Reload from API
@@ -252,5 +203,5 @@ if (resetBtn) {
     resetBtn.addEventListener('click', handleResetData);
 }
 
-// Initialize profile on page load
+// Initialize
 loadUserProfile();
