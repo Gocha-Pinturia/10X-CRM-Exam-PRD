@@ -4,12 +4,6 @@ import { getSession, clearSession, getTheme, saveTheme } from './storage.js';
 import { showToast } from './ui.js';
 import { protectPage } from './guard.js';
 
-// Switch the color of the hamburger menu stripes
-const btn = document.querySelector('.hamburger-btn');
-
-// Switch the color of the button menu (all, lead, contacted, won, lost)
-const chipBg = document.querySelectorAll('.chip');
-
 // 1. Protect the page (P0.1)
 protectPage();
 
@@ -50,12 +44,6 @@ const currentTheme = getTheme();
 // Apply the saved theme on page load
 if (currentTheme === 'light') {
     document.body.classList.add('light-theme');
-    btn.classList.add('color-changed');
-    if (chipBg.length != 0) {
-        chipBg.forEach(chip => {
-            chip.classList.add('chip-color-changed');
-        });
-    }
 }
 
 
@@ -66,19 +54,6 @@ if (themeToggleBtn) {
 
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
-        btn.classList.toggle('color-changed');
-
-        if (chipBg.length != 0 && themeToggleBtn.textContent === '☀️ Light') {
-            chipBg.forEach(chip => {
-                chip.classList.add('chip-color-changed');
-            });
-        } else if (chipBg.length != 0 && themeToggleBtn.textContent === '🌙 Dark') {
-            console.log("geg")
-
-            chipBg.forEach(chip => {
-                chip.classList.remove('chip-color-changed');
-            });
-        }
 
         // Check if light theme is now active
         const isLight = document.body.classList.contains('light-theme');
