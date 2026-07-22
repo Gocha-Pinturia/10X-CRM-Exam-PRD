@@ -47,6 +47,7 @@ You can use the following credentials or create your own account:
 Or simply register a new account on the Sign Up page.
 
 ## File Structure
+```
 10X-CRM-Exam-PRD/
 ├── css/
 │   └── style.css
@@ -77,6 +78,7 @@ Or simply register a new account on the Sign Up page.
 ├── ai-log.md
 ├── glossary.md
 └── research-note.md
+```
 
 ## LocalStorage Keys
 - crm_users - Array of registered users
