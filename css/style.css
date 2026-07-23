@@ -343,7 +343,6 @@ body.light-theme #btn-remind {
 }
 
 body.light-theme .modal-close {
-  background: rgba(0, 0, 0, 0.1);
   color: #0f172a;
 }
 
@@ -514,6 +513,7 @@ body.light-theme .chip:hover {
   opacity: 0;
   transition: all 0.3s ease;
   color: white;
+  background-color: #C6A837;
 }
 .toast.toast-visible {
   transform: translateX(0);
@@ -554,7 +554,7 @@ body.light-theme .chip:hover {
    =================================== */
 .modal {
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
@@ -571,10 +571,10 @@ body.light-theme .chip:hover {
 .modal .modal-content {
   background-color: #1e293b;
   border-radius: 12px;
-  padding: 32px;
+  padding-top: 60px;
   max-width: 500px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
 }
 .modal .modal-header {
@@ -590,14 +590,10 @@ body.light-theme .chip:hover {
 .modal .btn-icon {
   background: none;
   border: none;
-  color: #94a3b8;
   font-size: 24px;
   cursor: pointer;
   padding: 0;
   line-height: 1;
-}
-.modal .btn-icon:hover {
-  color: #f1f5f9;
 }
 
 /* ===================================
@@ -1083,12 +1079,6 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
   padding: 24px 16px;
 }
 
-.toast-container {
-  right: 12px;
-  left: 12px;
-  max-width: none;
-}
-
 .toast {
   padding: 12px 16px;
 }
@@ -1107,7 +1097,7 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
   position: absolute;
   top: 16px;
   right: 16px;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: #1e293b;
   border: none;
   width: 32px;
   height: 32px;
@@ -1125,8 +1115,12 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
   transform: rotate(90deg);
 }
 
+body.light-theme .modal-close {
+  background-color: #F5F6FA;
+}
+
 .client-details-header {
-  padding: 32px 24px 24px;
+  padding: 10px;
   border-radius: 15px;
   background: linear-gradient(135deg, var(--primary, #3b82f6) 0%, var(--primary-dark, #2563eb) 100%);
   color: white;

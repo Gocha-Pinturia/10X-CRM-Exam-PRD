@@ -316,7 +316,6 @@ body.light-theme #btn-remind {
 }
 
 body.light-theme .modal-close {
-  background: rgba(0, 0, 0, 0.1);
   color: $text-light;
 }
 
@@ -497,6 +496,7 @@ body.light-theme .chip {
   opacity: 0;
   transition: all 0.3s ease;
   color: white;
+  background-color: #C6A837; 
 
   &.toast-visible {
     transform: translateX(0);
@@ -544,7 +544,7 @@ body.light-theme .chip {
    =================================== */
 .modal {
   position: fixed;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate((-50%, -50%));
   width: 90%;
@@ -562,10 +562,10 @@ body.light-theme .chip {
   .modal-content {
     background-color: $card-bg;
     border-radius: 12px;
-    padding: 32px;
+    padding-top: 60px;
     max-width: 500px;
     width: 100%;
-    max-height: 90vh;
+    max-height: 85vh;
     overflow-y: auto;
   }
 
@@ -584,15 +584,10 @@ body.light-theme .chip {
   .btn-icon {
     background: none;
     border: none;
-    color: $text-muted;
     font-size: 24px;
     cursor: pointer;
     padding: 0;
     line-height: 1;
-
-    &:hover {
-      color: $text-color;
-    }
   }
 }
 
@@ -1147,12 +1142,7 @@ RESPONSIVE DESIGN - MOBILE (≤ 767px)
     padding: 24px 16px;
   }
 
-  // Toast: narrower on mobile
-  .toast-container {
-    right: 12px;
-    left: 12px;
-    max-width: none;
-  }
+  // Toast: narrower on mobil
 
   .toast {
     padding: 12px 16px;
